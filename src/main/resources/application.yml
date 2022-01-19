@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: kafka-sort-consume
+server:
+  port: 8088
+kafka:
+  server: 127.0.0.1:9092
+  order:
+    topic: baiyan-test
