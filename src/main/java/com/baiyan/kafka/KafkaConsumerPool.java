@@ -99,7 +99,7 @@ public class KafkaConsumerPool<E> {
                            log.info("线程：{},执行任务：{},成功",threadName, GsonUtil.beanToJson(task));
 
                            //执行完成的任务加1
-                            pendingOffsets.decrementAndGet();
+                            pendingOffsets.incrementAndGet();
                         }
                     }catch (Exception e){
                        log.error("线程：{},执行任务：{},失败",threadName,e);
