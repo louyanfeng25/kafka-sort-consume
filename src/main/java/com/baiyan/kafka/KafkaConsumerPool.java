@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
 /**
+ * kafka顺序消费工具类线程池1.0
+ *
+ * 平滑扩容缩容待设计，stopped的钩子可以支持
+ *
  * @author baiyan
  * @date 2022/01/19
  */

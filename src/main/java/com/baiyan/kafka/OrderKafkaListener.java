@@ -4,9 +4,12 @@ package com.baiyan.kafka;
 import com.baiyan.model.OrderDTO;
 import com.baiyan.service.OrderService;
 import com.baiyan.util.GsonUtil;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.listener.AbstractConsumerSeekAware;
 import org.springframework.kafka.support.Acknowledgment;
@@ -23,10 +26,18 @@ import java.util.List;
  */
 @Component
 @Slf4j
+@ConfigurationProperties(prefix = "kafka.order")
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class OrderKafkaListener extends AbstractConsumerSeekAware {
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
+
+    /**
+     * 顺序消费并发级别
+     */
+    private Integer concurrent;
 
     /**
      * order业务顺序消费池
@@ -41,7 +52,7 @@ public class OrderKafkaListener extends AbstractConsumerSeekAware {
         KafkaSortConsumerConfig<OrderDTO> config = new KafkaSortConsumerConfig<>();
         config.setBizName("order");
         config.setBizService(orderService::solveRetry);
-        config.setConcurrentSize(3);
+        config.setConcurrentSize(concurrent);
         kafkaConsumerPool = new KafkaConsumerPool<>(config);
     }
 
@@ -56,9 +67,8 @@ public class OrderKafkaListener extends AbstractConsumerSeekAware {
             kafkaConsumerPool.submitTask(order.getId(),order);
         });
 
-        /**
-         *
-         */
+        // 当线程池中任务处理完成的计数达到拉取到的记录数时提交
+        // 注意这里如果存在部分业务阻塞时间很长，会导致位移提交不上去，务必做好一些熔断措施
         while (true){
            if(records.size() == kafkaConsumerPool.getPendingOffsets().get()){
                ack.acknowledge();

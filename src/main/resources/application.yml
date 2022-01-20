@@ -5,5 +5,7 @@ server:
   port: 8088
 kafka:
   server: 127.0.0.1:9092
+  groupId: baiyan
   order:
     topic: baiyan-test
+    concurrent: 3

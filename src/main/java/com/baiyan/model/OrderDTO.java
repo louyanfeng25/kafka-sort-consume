@@ -3,6 +3,8 @@ package com.baiyan.model;
 import lombok.Data;
 
 /**
+ * 订单数据载体
+ *
  * @author baiyan
  * @date 2022/01/19
  */

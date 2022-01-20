@@ -1,10 +1,11 @@
 package com.baiyan.kafka;
 
+import lombok.Data;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -21,15 +22,23 @@ import java.util.Map;
  */
 @Configuration
 @EnableKafka
+@ConfigurationProperties(prefix = "kafka")
+@Data
 public class KafkaConfig {
 
-    @Value("${kafka.server:}")
+    /**
+     * kafka地址
+     */
     private String server;
 
-    @Value("${kafka.maxPollRecords:20}")
-    private Integer maxPollRecords;
+    /**
+     * 单次最大拉取记录数
+     */
+    private Integer maxPollRecords = 20;
 
-    @Value("${kafka.groupId:baiyan}")
+    /**
+     * 消费者groupId
+     */
     private String groupId;
 
     @Bean("baiyanCommonFactory")

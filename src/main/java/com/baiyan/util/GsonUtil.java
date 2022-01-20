@@ -16,7 +16,7 @@ import java.util.Objects;
  * gson工具类
  *
  * @author baiyan
- * @date 2020/10/13
+ * @date 2022/01/19
  */
 public class GsonUtil {
 

@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.retry.annotation.EnableRetry;
 
 /**
+ * 启动类
+ *
  * @author baiyan
  * @date 2022/01/19
  */

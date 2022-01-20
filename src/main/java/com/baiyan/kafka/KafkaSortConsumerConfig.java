@@ -5,6 +5,9 @@ import lombok.Data;
 import java.util.function.Consumer;
 
 /**
+ *
+ * kafka顺序消费线程池配置参数
+ *
  * @author baiyan
  * @date 2022-01-19
  */
